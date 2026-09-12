@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informática PM-MA • Tático Cebraspe</title>
+<style>
+  :root {
+    --bg-page: #060913;
+    --bg-panel: #0d1326;
+    --bg-card: #151e38;
+    --border-color: #23315e;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --cyan: #06b6d4;
+    --violet: #8b5cf6;
+    --amber: #f59e0b;
+    --emerald: #10b981;
+    --rose: #ef4444;
+    --yellow-highlight: #fef08a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+
+  body { background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding: 20px; font-size: 14.5px; }
+
+  .container { max-width: 1050px; margin: 0 auto; padding-bottom: 80px; }
+
+  .header { text-align: center; margin-bottom: 30px; padding-top: 15px; }
+  .header h1 { color: var(--cyan); font-size: 1.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .header p { color: var(--text-muted); font-size: 1rem; }
+
+  /* Acordeão Estilizado */
+  details { background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  
+  summary { padding: 18px 20px; font-size: 1.15rem; font-weight: 700; color: var(--violet); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background-color: #11182d; transition: background 0.2s; user-select: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { background-color: #17223e; }
+  summary::after { content: '+'; font-size: 1.8rem; color: var(--cyan); font-weight: 300; transition: transform 0.3s; }
+  details[open] summary::after { content: '−'; transform: rotate(180deg); }
+
+  .content { padding: 25px; border-top: 1px solid var(--border-color); }
+
+  h3 { color: var(--cyan); font-size: 1.15rem; margin: 25px 0 15px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px; }
+  h3:first-child { margin-top: 0; }
+
+  p { margin-bottom: 15px; color: #cbd5e1; }
+  strong { color: #ffffff; font-weight: 600; }
+  ul { padding-left: 20px; color: #cbd5e1; margin-bottom: 15px; }
+  li { margin-bottom: 8px; }
+  
+  .hl-rose { color: var(--rose); font-weight: 700; }
+  .hl-emerald { color: var(--emerald); font-weight: 700; }
+  .hl-cyan { color: var(--cyan); font-weight: 700; }
+  
+  /* Destaque "Caneta Marca Texto" */
+  mark { background-color: rgba(245, 158, 11, 0.25); color: var(--yellow-highlight); padding: 0 4px; border-radius: 3px; font-weight: bold; }
+
+  /* ================== SISTEMA DE CARDS (GRID) ================== */
+  .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px; }
+  
+  .card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 18px; transition: transform 0.2s, box-shadow 0.2s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.4); }
+
+  .card-title { color: var(--cyan); font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; display: block; }
+  .card-subtitle { color: var(--emerald); font-size: 0.85rem; text-transform: uppercase; font-weight: 800; margin-bottom: 8px; display: block; letter-spacing: 0.5px; }
+
+  /* ================== TABELAS MODERNAS (TIPO LISTAGEM DO PRINT) ================== */
+  .modern-table { width: 100%; border-collapse: collapse; margin: 15px 0 25px; background-color: transparent; }
+  .modern-table th { color: var(--cyan); text-transform: uppercase; font-size: 0.9rem; font-weight: 800; padding: 14px; text-align: left; border-bottom: 2px solid var(--border-color); letter-spacing: 0.5px; }
+  .modern-table td { padding: 16px 14px; border-bottom: 1px solid rgba(35, 49, 94, 0.5); color: #cbd5e1; font-size: 0.95rem; vertical-align: middle; }
+  .modern-table tr:last-child td { border-bottom: none; }
+  .modern-table tr:hover td { background-color: rgba(255, 255, 255, 0.02); }
+
+  /* Código / Atalhos */
+  code { background-color: #040814; padding: 4px 8px; border-radius: 4px; font-family: monospace; color: #bae6fd; font-size: 0.95rem; border: 1px solid rgba(6, 182, 212, 0.2); }
+
+  /* Dicas do Professor (Alertas) */
+  .dica-prof { background-color: rgba(16, 185, 129, 0.05); border-left: 4px solid var(--emerald); padding: 18px; margin-bottom: 20px; border-radius: 0 6px 6px 0; }
+  .dica-prof-title { color: var(--emerald); font-weight: 800; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 8px; display: block; }
+
+  /* Botão Flutuante */
+  .floating-btn { position: fixed; bottom: 25px; right: 25px; background: linear-gradient(135deg, var(--violet), var(--cyan)); color: #fff; padding: 14px 22px; border-radius: 30px; font-weight: 800; font-size: 1rem; box-shadow: 0 8px 20px rgba(0,0,0,0.5); cursor: pointer; border: none; transition: transform 0.2s; z-index: 100; }
+  .floating-btn:hover { transform: scale(1.05); }
+
+  /* Modal de Pegadinhas */
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 999; justify-content: center; align-items: center; padding: 15px; }
+  .modal-content { background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 10px; width: 100%; max-width: 850px; max-height: 85vh; overflow-y: auto; padding: 35px; position: relative; }
+  .close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: var(--text-muted); font-size: 2rem; cursor: pointer; }
+  .close-btn:hover { color: var(--rose); }
+
+  .trick-box { background-color: rgba(245, 158, 11, 0.05); border-left: 4px solid var(--amber); padding: 15px; margin-bottom: 15px; border-radius: 0 6px 6px 0; }
+  .trick-title { color: var(--amber); font-weight: 800; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 6px; display: block; }
+  .falso { color: var(--rose); text-decoration: line-through; margin-right: 5px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Informática Didática • PM-MA</h1>
+    <p>Cheat Sheet para os desesperados.</p>
+  </div>
+
+  <!-- ================= SEÇÃO 1: WINDOWS E LINUX ================= -->
+  <details>
+    <summary>💻 1. Sistemas Operacionais (Windows e Linux)</summary>
+    <div class="content">
+      
+      <div class="dica-prof">
+        <span class="dica-prof-title">Sistemas de Arquivos: NTFS vs FAT32</span>
+        O Windows usa por padrão o formato <strong>NTFS</strong>, que é moderno, seguro e feito para arquivos gigantes. O <strong>FAT32</strong> é legado, muito usado em pendrives porque tem <mark>alta compatibilidade</mark> (toca no som do carro antigo direto, o NTFS às vezes não). <br><br>
+        <strong>GATILHO DA PROVA:</strong> O FAT32 <mark>NÃO aceita um arquivo único maior que 4GB</mark>. Se você tentar colocar um filme de 5GB nele, vai dar erro de disco cheio, mesmo se o pendrive for de 32GB!
+      </div>
+
+      <h3>Regras de Ouro do Windows</h3>
+      <div class="grid-cards">
+        <div class="card">
+          <span class="card-title">Arrastar na MESMA Unidade</span>
+          <p>Ex: Mover do <code>C:\Fotos</code> para o <code>C:\Docs</code>.</p>
+          <p>O Windows <strong class="hl-emerald">MOVE</strong> (recorta e cola). A intenção primária aqui é apenas organizar a mesma gaveta.</p>
+        </div>
+        <div class="card">
+          <span class="card-title">Arrastar em Unidades DIFERENTES</span>
+          <p>Ex: Mover do <code>C:\</code> para o Pendrive <code>E:\</code>.</p>
+          <p>O Windows <strong class="hl-cyan">COPIA</strong>. Ele entende que você quer levar uma cópia de segurança para outro lugar.</p>
+        </div>
+        <div class="card">
+          <span class="card-title">A Pegadinha da Lixeira</span>
+          <p>Arquivos deletados do HD vão pra Lixeira. Mas se excluir do <mark>Pendrive, Cartão de Memória ou Pasta de Rede</mark>, a exclusão é <strong>definitiva na hora</strong>! Não passa pela Lixeira.</p>
+        </div>
+      </div>
+
+      <h3>Mundo Linux: Estrutura Base</h3>
+      <div class="grid-cards">
+        <div class="card">
+          <span class="card-title">Case-Sensitive</span>
+          <p>O Linux é super sensível às letras. Para ele, <mark>Edital.txt</mark> é uma coisa e <mark>edital.txt</mark> é outra. Eles podem morar na mesma pasta pacificamente.</p>
+        </div>
+        <div class="card">
+          <span class="card-title">Árvore Invertida (Raiz)</span>
+          <p>No Linux não existem letras como C: ou D:. Tudo nasce de um único ponto inicial chamado <mark>Raiz</mark>, representado pela barra: <code>/</code></p>
+        </div>
+        <div class="card">
+          <span class="card-title">Prompt (O Símbolo)</span>
+          <p>Usuário comum termina com cifrão <code>$</code>. Administrador supremo (Root) termina com cerquilha (hashtag) <code>#</code>.</p>
+        </div>
+      </div>
+
+      <h3>Diretórios e Comandos do Linux</h3>
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Comando / Diretório</th>
+            <th>O que faz?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/etc</code></td>
+            <td>Contém todos os arquivos de <mark>configuração globais</mark> do sistema e programas. É o cérebro das regras.</td>
+          </tr>
+          <tr>
+            <td><code>/home</code></td>
+            <td>A "casa" dos <mark>usuários comuns</mark>. Seus documentos, downloads e músicas ficam aqui.</td>
+          </tr>
+          <tr>
+            <td><code>/var</code></td>
+            <td>Arquivos que variam de tamanho. É aqui que o sistema guarda os <mark>Logs (registros)</mark> e filas de impressão.</td>
+          </tr>
+          <tr>
+            <td><code>pwd</code></td>
+            <td>Mostra na tela o caminho completo da pasta atual onde você está logado.</td>
+          </tr>
+          <tr>
+            <td><code>grep</code></td>
+            <td>Procura uma palavra ou frase específica <strong>dentro</strong> de um ou mais arquivos de texto.</td>
+          </tr>
+          <tr>
+            <td><code>chmod</code></td>
+            <td>Altera as permissões de um arquivo (quem pode ler, gravar ou executar).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <!-- ================= SEÇÃO 2: OFFICE E BROFFICE ================= -->
+  <details>
+    <summary>📊 2. Suítes de Escritório (Fórmulas e Comportamentos)</summary>
+    <div class="content">
+      
+      <div class="dica-prof">
+        <span class="dica-prof-title">Interoperabilidade Nativa</span>
+        A banca adora dizer que o LibreOffice precisa de extensões pagas para abrir arquivos da Microsoft. <strong>Mentira!</strong> O LibreOffice (Writer, Calc, Impress) <mark>lê, edita e salva NATIVAMENTE</mark> arquivos do Word (<code>.docx</code>), Excel (<code>.xlsx</code>) e PowerPoint (<code>.pptx</code>).
+      </div>
+
+      <h3>Planilhas: Operadores de Referência e Trancamento</h3>
+      <ul>
+        <li><strong>Operador de Intervalo ( : )</strong> Indica um intervalo contínuo. Ex: <code>A1:A10</code> engloba tudo de A1 <mark>ATÉ</mark> A10.</li>
+        <li><strong>Operador de União ( ; )</strong> Indica uma união pontual. Ex: <code>A1;A10</code> processa <mark>APENAS</mark> as duas células individualmente.</li>
+      </ul>
+
+      <div class="grid-cards">
+        <div class="card">
+          <span class="card-subtitle">Referência Absoluta</span>
+          <span class="card-title"><code>$A$1</code></span>
+          <p>Ao copiar a fórmula para outra célula, a referência a A1 <mark>não muda de jeito nenhum</mark> (trancou coluna e linha).</p>
+        </div>
+        <div class="card">
+          <span class="card-subtitle">Referência Mista (Linha)</span>
+          <span class="card-title"><code>A$1</code></span>
+          <p>A linha 1 está congelada. A coluna (A, B, C...) muda se você arrastar a fórmula para o lado.</p>
+        </div>
+        <div class="card">
+          <span class="card-subtitle">Referência Mista (Coluna)</span>
+          <span class="card-title"><code>$A1</code></span>
+          <p>A coluna A está congelada. A linha (1, 2, 3...) muda se você arrastar a fórmula para baixo.</p>
+        </div>
+      </div>
+
+      <h3>Planilhas: Funções que caem na Cebraspe</h3>
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th style="width: 35%;">Função</th>
+            <th>O que faz?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>=SE(teste; valor_v; valor_f)</code></td>
+            <td>Função lógica condicional. Avalia o teste e retorna o primeiro valor se verdadeiro, ou o segundo se falso.</td>
+          </tr>
+          <tr>
+            <td><code>=PROCV(valor; matriz; num_col)</code></td>
+            <td>Busca um valor na primeira coluna de uma tabela e retorna o valor na mesma linha de uma coluna especificada.</td>
+          </tr>
+          <tr>
+            <td><code>=CONT.SE(intervalo; critério)</code></td>
+            <td>Conta o número de células dentro de um intervalo que atendem a um único critério especificado (Ex: contar as notas > 7).</td>
+          </tr>
+          <tr>
+            <td><code>=SOMASE(int; crit; [int_soma])</code></td>
+            <td>Soma os valores de um intervalo <strong>condicionados</strong> a um critério especificado.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Word e Writer</h3>
+      <ul>
+        <li><strong>Quebra de Seção vs Quebra de Página:</strong> A Quebra de Página (<code>Ctrl+Enter</code>) apenas empurra o texto para a página seguinte. A <mark>Quebra de Seção</mark> permite que o documento tenha formatações estruturais diferentes (ex: uma página em modo Paisagem no meio do arquivo, cabeçalhos diferentes, numerações independentes).</li>
+      </ul>
+
+    </div>
+  </details>
+
+  <!-- ================= SEÇÃO 3: REDES E INTERNET ================= -->
+  <details>
+    <summary>🌐 3. Redes, Internet e E-mail</summary>
+    <div class="content">
+      
+      <div class="grid-cards">
+        <div class="card">
+          <span class="card-title">Internet vs Intranet</span>
+          <p>A Internet é pública. A Intranet é privada para funcionários. <br><br><strong>O GATILHO:</strong> Ambas usam <mark>exatamente a MESMA tecnologia (TCP/IP)</mark>. O que muda é que a Intranet tem senha e bloqueios.</p>
+        </div>
+        <div class="card">
+          <span class="card-title">Guia Anônima</span>
+          <p>Ela <mark>NÃO te deixa invisível na rede</mark>. Ela só não salva o histórico e as senhas no SEU PC local. O provedor de internet e seu chefe continuam vendo seus acessos normalmente.</p>
+        </div>
+        <div class="card">
+          <span class="card-title">A Cópia Oculta (Cco)</span>
+          <p>Se alguém estiver no Cco, ninguém sabe que ele está ali. Se um destinatário clicar em <mark>"Responder a Todos"</mark>, o cara do Cco NÃO VAI receber a resposta. Ele fica isolado.</p>
+        </div>
+      </div>
+
+      <h3>A Pilha de Protocolos TCP/IP</h3>
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Protocolo</th>
+            <th>O que faz na prática?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>HTTP / HTTPS</code></td>
+            <td>Navegação em sites web. O HTTPS possui a letra "S" porque usa <mark>Criptografia SSL/TLS</mark> (embaralha os dados em trânsito).</td>
+          </tr>
+          <tr>
+            <td><code>DNS</code></td>
+            <td>A "Lista Telefônica" da internet. Traduz domínios fáceis de ler (pm.ma.gov.br) no <mark>Endereço IP numérico</mark> do servidor.</td>
+          </tr>
+          <tr>
+            <td><code>DHCP</code></td>
+            <td>O entregador automático. Ele é quem te dá um <mark>Endereço IP dinâmico</mark> na hora que você conecta seu celular no Wi-Fi.</td>
+          </tr>
+          <tr>
+            <td><code>TCP vs UDP</code></td>
+            <td><strong>TCP:</strong> O Correio Registrado (Garante e confirma a entrega. Seguro).<br><strong>UDP:</strong> O Sedex Louco (Muito rápido, mas <mark>não garante a entrega</mark>. Usado para Streaming e VoIP).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Protocolos de Correio Eletrônico</h3>
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">Protocolo</th>
+            <th>Direção</th>
+            <th>Comportamento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>SMTP</code></td>
+            <td><strong class="hl-cyan">ENVIO</strong></td>
+            <td>(<strong>S</strong>ua <strong>M</strong>ensagem <strong>T</strong>á <strong>P</strong>artindo). É o ÚNICO protocolo que serve exclusivamente para ENVIAR e-mails.</td>
+          </tr>
+          <tr>
+            <td><code>POP3</code></td>
+            <td><strong class="hl-emerald">RECEBE</strong></td>
+            <td>Ele puxa a mensagem pro seu PC e (por padrão) <mark>apaga do servidor na nuvem</mark>. É focado em acesso offline e não sincroniza outros aparelhos.</td>
+          </tr>
+          <tr>
+            <td><code>IMAP</code></td>
+            <td><strong class="hl-emerald">RECEBE</strong></td>
+            <td>Lê direto no servidor e <mark>Sincroniza</mark>. O que você faz no celular (ex: marca como lido), reflete no computador na hora. Usado pelo Gmail moderno.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </details>
+
+  <!-- ================= SEÇÃO 4: SEGURANÇA E MALWARES ================= -->
+  <details>
+    <summary>🛡️ 4. Segurança da Informação e Malwares</summary>
+    <div class="content">
+
+      <h3>Os Pilares (C.I.D.A.N)</h3>
+      <div class="grid-cards">
+        <div class="card">
+          <span class="card-subtitle">Confidencialidade</span>
+          <p><mark>Sigilo</mark>. Só os autorizados leem. (Garantido pela Criptografia).</p>
+        </div>
+        <div class="card">
+          <span class="card-subtitle">Integridade</span>
+          <p>A mensagem <mark>não foi alterada</mark> ou apagada no caminho. (Garantido pelo código Hash).</p>
+        </div>
+        <div class="card">
+          <span class="card-subtitle">Disponibilidade</span>
+          <p>O sistema tem que estar <mark>sempre acessível</mark>. (Garantido por Backups e No-breaks).</p>
+        </div>
+        <div class="card">
+          <span class="card-subtitle">Autenticidade & Não-Repúdio</span>
+          <p>Garante a identidade de quem mandou e faz com que ele <mark>não possa negar</mark> que mandou. (Garantidos pelo Certificado e Assinatura Digital).</p>
+        </div>
+      </div>
+
+      <div class="dica-prof">
+        <span class="dica-prof-title">Firewall NÃO É Antivírus!</span>
+        O Firewall é o <strong>porteiro</strong> da rede. Ele confere se a "porta" e o "IP" podem passar. Ele <mark>NÃO varre arquivos, NÃO procura vírus e NÃO examina anexos de e-mail</mark>. Quem caça e limpa código malicioso é o Antivírus!
+      </div>
+
+      <h3>As Pragas Virtuais (Malwares)</h3>
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">Praga Virtual</th>
+            <th>Como ela age na prática?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Vírus</strong></td>
+            <td>Ele é um parasita. Precisa de um <mark>arquivo hospedeiro</mark> e você tem que <strong>executar/clicar</strong> para ele funcionar. Ele não age sozinho.</td>
+          </tr>
+          <tr>
+            <td><strong>Worm (Verme)</strong></td>
+            <td>O perigo das redes! Ele é <mark>autônomo (não precisa de hospedeiro)</mark>. Viaja pelas brechas da rede sozinho, multiplicando-se e deixando a internet lenta.</td>
+          </tr>
+          <tr>
+            <td><strong>Trojan</strong></td>
+            <td>Vem como um presente (um jogo grátis), mas por trás ele abre <mark>portas ocultas (Backdoors)</mark> para um invasor controlar seu PC.</td>
+          </tr>
+          <tr>
+            <td><strong>Ransomware</strong></td>
+            <td>O sequestrador. Ele <mark>criptografa (embaralha)</mark> seus arquivos e exige o pagamento de um <strong>resgate</strong> (geralmente em Bitcoin) para liberar a chave.</td>
+          </tr>
+          <tr>
+            <td><strong>Spyware</strong></td>
+            <td>O Espião. Pode ser um <em>Keylogger</em> (grava o que você digita no teclado) ou um <em>Screenlogger</em> (tira prints da tela nos cliques do mouse).</td>
+          </tr>
+          <tr>
+            <td><strong>Phishing</strong></td>
+            <td>Uma pescaria de Engenharia Social. É a <mark>página falsa de banco</mark> ou e-mail fraudulento. Ele engana seu psicológico para você mesmo entregar a senha.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <!-- ================= SEÇÃO 5: BACKUP E CLOUD ================= -->
+  <details>
+    <summary>☁️ 5. Tipos de Backup e Computação em Nuvem</summary>
+    <div class="content">
+
+      <h3>A Lógica do Backup (A flag de Aviso)</h3>
+      <p>Sempre que você cria ou altera um documento, o computador acende uma flag invisível nela (o <i>Bit de Arquivo</i>) que significa: <strong>"Fui alterado, faça meu backup!"</strong>.</p>
+      
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Tipo de Backup</th>
+            <th>O que copia?</th>
+            <th>Apaga a flag (Bit)?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Completo (Full)</strong></td>
+            <td>Copia TUDO, sem perguntar nada. É a base de segurança inicial.</td>
+            <td><strong class="hl-emerald">SIM.</strong> Desmarca a luzinha, avisando que o arquivo já está a salvo.</td>
+          </tr>
+          <tr>
+            <td><strong>Incremental</strong></td>
+            <td>Copia só o que foi alterado desde o ÚLTIMO backup (seja full ou incremental).</td>
+            <td><strong class="hl-emerald">SIM.</strong> Desmarca a luzinha para deixar a folha em branco pro dia seguinte.</td>
+          </tr>
+          <tr>
+            <td><strong>Diferencial</strong></td>
+            <td>Copia tudo que mudou desde o último backup FULL. Ele é acumulativo.</td>
+            <td><strong class="hl-rose">NÃO.</strong> Ele é "fofoqueiro", copia e deixa a luz acesa para acumular mais amanhã.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="dica-prof">
+        <span class="dica-prof-title">Sincronizar no Google Drive NÃO É Backup seguro</span>
+        Quando você baixa o aplicativo do Drive/OneDrive no PC, ele cria uma pasta que espelha tudo. A banca vai dizer que isso é o melhor backup contra tudo. <strong>FALSO!</strong> A instalação dos aplicativos do Google Drive ou OneDrive permite sincronizar arquivos entre o computador e a nuvem. Entretanto, a sincronização não substitui um backup independente, pois alterações e exclusões podem ser replicadas entre os dispositivos. Além disso, arquivos sincronizados podem ser afetados por malwares, como ransomware. Portanto, é recomendável manter cópias de segurança independentes, com histórico de versões e possibilidade de recuperação.
+      </div>
+
+      <h3>Computação em Nuvem (Modelos de Serviço)</h3>
+      <div class="grid-cards">
+        <div class="card">
+          <span class="card-title">SaaS (Software)</span>
+          <p>É o que nós usamos. O software já vem <mark>100% pronto na web</mark>. Você não instala nada. Ex: Gmail, Netflix, Dropbox.</p>
+        </div>
+        <div class="card">
+          <span class="card-title">PaaS (Plataforma)</span>
+          <p>Ambiente pronto focado para <mark>Programadores</mark> criarem seus próprios aplicativos sem ter que comprar servidores. Ex: Google App Engine.</p>
+        </div>
+        <div class="card">
+          <span class="card-title">IaaS (Infraestrutura)</span>
+          <p>É a "chapa lisa". Eles te alugam o hardware virtual. <mark>Você é quem tem que instalar o Sistema Operacional (Windows/Linux)</mark> e gerenciar tudo. Ex: AWS EC2.</p>
+        </div>
+      </div>
+
+    </div>
+  </details>
+
+</div>
+
+<!-- ================= BOTÃO FLUTUANTE ================= -->
+<button class="floating-btn" onclick="openModal()"> Não vá cair nessas pegadinhas kabeçuda</button>
+
+<!-- ================= MODAL DE PEGADINHAS ================= -->
+<div class="modal-overlay" id="trickModal">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal()">&times;</button>
+    
+    <h2 style="color: var(--cyan); text-transform: uppercase; margin-bottom: 20px; font-size: 1.6rem; text-align: center;">Não vá cair nessas pegadinhas kabeçuda</h2>
+    <p style="color: var(--text-muted); text-align: center; margin-bottom: 30px; font-size: 1.05rem;">Entenda como a banca sacaneia as palavras para te confundir na hora da prova.</p>
+
+    <div class="trick-box">
+      <span class="trick-title">1. O Firewall caçador de vírus?</span>
+      <p><span class="falso">FALSO:</span> "O firewall examinou um anexo de e-mail e <strong>removeu</strong> um vírus que infectaria o sistema.".. tipo isso..</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Pensa no Firewall como o segurança da porta da festa. Ele só olha a lista de convidados (IPs e Portas de rede). Ele NÃO revista a sua bolsa (não varre o arquivo pra procurar vírus). Quem faz isso é o <strong>Antivírus</strong>!</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">2. A Intranet "noossa!!"</span>
+      <p><span class="falso">FALSO:</span> "A Intranet utiliza protocolos proprietários totalmente <strong>distintos</strong> dos empregados na Internet comercial para ser segura."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Intranet e Internet usam a <strong>mesma pilha de protocolos (TCP/IP, HTTP, etc)</strong>. O que garante a segurança da Intranet não são tecnologias alienígenas, mas sim exigir senha e barreiras físicas/lógicas. <strong>Lembre-se sempre dos termos "Acesso privado/restrito/exclusivo para funcionários/empresa" </strong> </p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">3. A Guia Anônima que te deixa invisível?</span>
+      <p><span class="falso">FALSO:</span> "O uso da Guia Anônima no Chrome impede que o provedor de internet visualize os sites acessados."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> A guia anônima só esconde o histórico das pessoas que usam o <strong>mesmo computador que você</strong>. Seu chefe na rede da empresa e o seu provedor (Vivo, Claro) continuam vendo TUDO. Mas não em uma sala com telões hehe..</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">4. A Lixeira do Pendrive</span>
+      <p><span class="falso">FALSO:</span> "Ao apagar acidentalmente um arquivo de um pendrive, o usuário pode restaurá-lo acessando a Lixeira do Windows."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Se você apagou do Pendrive, do Cartão SD ou de uma pasta de rede compartilhada, adeus! <strong>Esses locais NÃO usam a Lixeira</strong>. O arquivo sofre exclusão definitiva imediatamente.</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">5. Trocando TCP por UDP</span>
+      <p><span class="falso">FALSO:</span> "O protocolo UDP é utilizado em envio de e-mails críticos pois garante a entrega e a confirmação de recebimento."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> A banca inverteu. O <strong>TCP</strong> é o Correio Registrado (garante e confirma). O <strong>UDP</strong> é como jogar um panfleto pela janela: muito rápido, mas não tá nem aí se você conseguiu pegar (usado para streaming).</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">6. O Worm que precisa de "hospedeiro"</span>
+      <p><span class="falso">FALSO:</span> "Os worms precisam anexar seu código malicioso a arquivos do Word legítimos do usuário para sobreviver."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Worm significa verme, e ele tem "vida própria". O Worm é <strong>100% autônomo</strong>. Ele NÃO PRECISA e não se insere em arquivos hospedeiros. Quem parasita outros arquivos é o Vírus.</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">7. O Linux "aceita tudo?"</span>
+      <p><span class="falso">FALSO:</span> "No Linux, os arquivos <code>PROVA.txt</code> e <code>prova.txt</code> sobrescreverão um ao outro se salvos na mesma pasta, pois o sistema trata as letras da mesma forma."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> O Windows faz isso, mas o <strong>Linux é Case-Sensitive</strong> (diferencia maiúsculas e minúsculas). Para ele, <code>PROVA.txt</code> e <code>prova.txt</code> são arquivos totalmente diferentes e podem morar na mesma pasta. </p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">8. Arrastar Arquivos no Mesmo Disco = Cópia</span>
+      <p><span class="falso">FALSO:</span> "Ao arrastar a pasta 'Inquérito' de <code>C:\Documentos</code> para <code>C:\Backup</code>, o Windows copiará o arquivo."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Como as duas pastas estão na MESMA unidade (a letra C:), o Windows vai <strong>MOVER (recortar e colar)</strong>. Ele só copiaria direto se você estivesse jogando para outra unidade (ex: de C: para o Pendrive E:).<strong>Lembra??</strong></p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">9. Phishing como um Vírus?</span>
+      <p><span class="falso">FALSO:</span> "O Phishing é um vírus executável perigoso que corrompe o boot do sistema operacional."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Phishing ("pescaria") não é um arquivo vírus. É pura malandragem (Engenharia Social). É aquele e-mail falso de banco. O seu PC não é infectado, você é que digita a senha de forma enganada. (O golpe, tá aí! cai quem quer..)</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">10. O 'Responder a Todos' não chegou pro Chefe?</span>
+      <p><span class="falso">FALSO:</span> "Se Brunah envia um e-mail para Carol, com o Chefe copiado em <code>Cco</code>. Caso Carol clique em 'Responder a Todos', o Chefe receberá a resposta dela."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> O Cco é "Silêncio Absoluto". Quando Carol recebe o e-mail, ela não vê o chefe lá. Ao clicar em "Responder a Todos", o e-mail dela <strong>NÃO VAI para quem estava no Cco original!</strong> O chefe fica de fora das respostas.</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">11. LibreOffice Exige Conversor?</span>
+      <p><span class="falso">FALSO:</span> "Documentos .docx do MS Word exigem a instalação de plug-ins para serem editados no LibreOffice Writer."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> O LibreOffice possui compatibilidade nativa! Ele abre, edita e salva em extensões da Microsoft (docx, xlsx) diretamente, sem você precisar instalar absolutamente nada.</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">12. Extranet e Servidor Internacional</span>
+      <p><span class="falso">FALSO:</span> "A diferença principal entre Intranet e Extranet é que a Extranet obrigatoriamente fica alocada em servidores fora do país."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Não tem nada a ver com o país. A diferença é <strong>QUEM ACESSA</strong>. Intranet: só quem está lá dentro no quartel. Extranet: pessoas autorizadas de fora (via VPN), <strong>Imagine que você quer acessar seu contra-cheque de sua casa acessando o endereço da intrante.. isso é um acesso EXTRAnet.</strong></p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">13. Hub (Inteligente) vs Switch (Burro)</span>
+      <p><span class="falso">FALSO:</span> "O Switch transmite os pacotes no modelo broadcast, gritando a informação para todos os computadores ao mesmo tempo."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> A banca inverteu os papéis de novo! Quem é "burro" e grita pra todo mundo é o <strong>HUB</strong>. O <strong>Switch</strong> é o cara inteligente: ele lê para onde a mensagem vai e manda direto pelo cabo certo para a pessoa certa.</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">14. Já ouviu falar em SaaS?</span>
+      <p><span class="falso">FALSO:</span> "No modelo SaaS, o usuário deve instalar o banco de dados e gerenciar os servidores em sua máquina local."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> SaaS significa <em>Software as a Service</em>. É "tudo pronto pra usar" via navegador! Você não instala servidor nenhum. Exemplo clássico: o Gmail ou a Netflix.</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">15. Ransomware bonzinho</span>
+      <p><span class="falso">FALSO:</span> "O Ransomware rouba dados, mas mantém os arquivos originais do disco do usuário totalmente abertos e utilizáveis."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> A assinatura do Ransomware é o SEQUESTRO via <strong>CRIPTOGRAFIA</strong>. Ele codifica/tranca tudo que você tem no PC e exige dinheiro para te devolver a chave de acesso. A palavrinha chave é <strong>"Extorsão"</strong></p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">16. Assinatura Digital esconde tudo</span>
+      <p><span class="falso">FALSO:</span> "Um documento assinado digitalmente ganha a propriedade de Confidencialidade Absoluta contra quem tentar ler no meio do caminho."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> A Assinatura Digital confirma a sua identidade e garante que o documento não foi fraudado. MAS ELA NÃO CRIPTOGRAFA O TEXTO. O texto continua aberto e legível. Assinatura não garante sigilo (confidencialidade).</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">17. Certificados de Chave Simétrica</span>
+      <p><span class="falso">FALSO:</span> "A Certificação Digital Brasileira (ICP-Brasil) fundamenta-se na criptografia de chave simétrica (chave única)."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Certificados Digitais usam <strong>Criptografia ASSIMÉTRICA</strong> (são duas chaves diferentes). Uma Chave Privada (trancada com você) e uma Chave Pública.</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">18. SMTP para ler fofocas</span>
+      <p><span class="falso">FALSO:</span> "O usuário utiliza o protocolo SMTP para realizar o download das novas mensagens de correio recebidas na sua caixa de entrada."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Lembre-se desse macete na prova: <strong>S</strong>ua <strong>M</strong>ensagem <strong>T</strong>á <strong>P</strong>artindo! O SMTP é SÓ de (Envio). Para baixar/receber os e-mails, usamos o POP3 ou o IMAP.</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">19. O Cadeadinho do HTTPS</span>
+      <p><span class="falso">FALSO:</span> "O HTTPS garante que o site é imune a fraudes, garantindo que o usuário jamais sofrerá um golpe de phishing."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> O cadeado verde (HTTPS) só embaralha os dados em trânsito (criptografia). Ele não impede que um criminoso compre um cadeado desses para um site clonado de banco. A conexão será segura, mas diretamente pro servidor do golpista! <strong>Mas não confuda com <strong>"HTTP"</strong> sem o <strong>"S"</strong>de <strong>"Seguro"</strong></p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">20. O Backup Diferencial educado</span>
+      <p><span class="falso">FALSO:</span> "O backup diferencial copia os arquivos alterados e, por educação, desmarca o atributo de arquivo modificado, preparando-o para o dia seguinte."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Diferencial é "fofoqueiro", ele copia e <strong>NÃO DESMARCA</strong> a chave de aviso. Por isso que, a cada dia que passa, ele vai engordando o backup, pois copia o que alterou hoje, ontem, anteontem... cumulativamente desde o último FULL! <strong>"Tá entendendo, Majoó?!</strong></p>
+    </div>
+
+     <div class="trick-box">
+      <span class="trick-title">Vou adicionar mais.. <strong>Calma!</strong></span>
+      
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('trickModal');
+  
+  function openModal() {
+    modal.style.display = 'flex';
+  }
+  
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+  
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      closeModal();
+    }
+  }
+</script>
+
+</body>
+</html>
