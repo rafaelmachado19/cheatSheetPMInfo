@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Informática PM-MA •</title>
+<title>Informática PM-MA • Tático Cebraspe</title>
 <style>
   :root {
     --bg-page: #060913;
@@ -331,6 +331,57 @@
         </tbody>
       </table>
 
+      
+
+      <h3>Busca e Pesquisa na Internet (Google)</h3>
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Operador</th>
+            <th>Como funciona na prática?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>"frase exata"</code> (Aspas)</td>
+            <td>Força o buscador a trazer <strong>exatamente</strong> aquelas palavras, naquela ordem. Ideal para achar uma lei ou texto específico.</td>
+          </tr>
+          <tr>
+            <td><code>-termo</code> (Hífen/Menos)</td>
+            <td>Serve para <mark>EXCLUIR</mark> uma palavra. Ex: <code>concurso -polícia</code> (traz sites de concurso, mas bloqueia qualquer um que tenha a palavra "polícia").</td>
+          </tr>
+          <tr>
+            <td><code>site:</code></td>
+            <td>Pesquisa <strong>apenas dentro de um site</strong>. Ex: <code>site:ma.gov.br edital</code> (só procura a palavra edital dentro dos sites do governo do MA).</td>
+          </tr>
+          <tr>
+            <td><code>filetype:</code></td>
+            <td>Busca por um <strong>formato de arquivo</strong>. Ex: <code>filetype:pdf informatica</code> (vai te dar o download direto de PDFs sobre informática).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Grupos de Discussão vs Redes Sociais</h3>
+      <div class="grid-cards">
+        <div class="card">
+          <span class="card-title">Grupos de Discussão</span>
+          <p>O foco aqui é o <strong>TEMA</strong> (e não as pessoas). São fóruns, comunidades ou listas de e-mail criados para debater assuntos específicos.</p>
+          <p><strong>Exemplos:</strong> Reddit, Fóruns de Concurseiros, Google Groups.</p>
+          <p><strong>Comportamento:</strong> A comunicação é essencialmente <mark>ASSÍNCRONA</mark>. Você posta uma dúvida hoje, e alguém entra para responder amanhã (funciona como um grande mural de recados e tira-dúvidas).</p>
+        </div>
+        <div class="card">
+          <span class="card-title">Redes Sociais</span>
+          <p>O foco aqui é o <strong>PERFIL DO USUÁRIO</strong> e suas conexões virtuais (amigos, seguidores, rede de contatos). Servem para relacionamento e compartilhamento de identidade.</p>
+          <p><strong>Exemplos:</strong> Instagram, LinkedIn, Facebook, X (Twitter).</p>
+          <p><strong>Comportamento:</strong> Mistura comunicação síncrona (chat ao vivo nas mensagens diretas) e assíncrona (postagens no feed).</p>
+        </div>
+      </div>
+
+      <div class="dica-prof">
+        <span class="dica-prof-title">O que a banca pode cobrar sobre isso?</span>
+        A banca não quer saber se você sabe fazer uma postagem. O foco é a <strong>Segurança e a Privacidade</strong>! É possível afirmar (e como correta) que as redes sociais são ambientes de altíssima superexposição, servindo como a maior fonte de coleta de dados abertos (OSINT) para criminosos estudarem as vítimas e aplicarem golpes de <mark>Engenharia Social e Phishing</mark> (manipulação psicológica).
+      </div>
+
     </div>
   </details>
 
@@ -456,7 +507,7 @@
           <span class="card-title">IaaS (Infraestrutura)</span>
           <p>É a "chapa lisa". Eles te alugam o hardware virtual. <mark>Você é quem tem que instalar o Sistema Operacional (Windows/Linux)</mark> e gerenciar tudo. Ex: AWS EC2.</p>
         </div>
-      </div>
+      </div>   
 
     </div>
   </details>
@@ -464,14 +515,14 @@
 </div>
 
 <!-- ================= BOTÃO FLUTUANTE ================= -->
-<button class="floating-btn" onclick="openModal()"> Não vão cair nessas pegadinhas kabeçudos</button>
+<button class="floating-btn" onclick="openModal()"> Não vá cair nessas pegadinhas kabeçuda</button>
 
 <!-- ================= MODAL DE PEGADINHAS ================= -->
 <div class="modal-overlay" id="trickModal">
   <div class="modal-content">
     <button class="close-btn" onclick="closeModal()">&times;</button>
     
-    <h2 style="color: var(--cyan); text-transform: uppercase; margin-bottom: 20px; font-size: 1.6rem; text-align: center;">Não vão cair nessas pegadinhas kabeçudos</h2>
+    <h2 style="color: var(--cyan); text-transform: uppercase; margin-bottom: 20px; font-size: 1.6rem; text-align: center;">Não vá cair nessas pegadinhas kabeçuda</h2>
     <p style="color: var(--text-muted); text-align: center; margin-bottom: 30px; font-size: 1.05rem;">Entenda como a banca sacaneia as palavras para te confundir na hora da prova.</p>
 
     <div class="trick-box">
@@ -592,6 +643,24 @@
       <span class="trick-title">20. O Backup Diferencial educado</span>
       <p><span class="falso">FALSO:</span> "O backup diferencial copia os arquivos alterados e, por educação, desmarca o atributo de arquivo modificado, preparando-o para o dia seguinte."</p>
       <p style="margin-top: 8px;"><strong>A Explicação:</strong> Diferencial é "fofoqueiro", ele copia e <strong>NÃO DESMARCA</strong> a chave de aviso. Por isso que, a cada dia que passa, ele vai engordando o backup, pois copia o que alterou hoje, ontem, anteontem... cumulativamente desde o último FULL! <strong>"Tá entendendo, Majoó?!</strong></p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">21. O Hífen na busca do Google</span>
+      <p><span class="falso">FALSO:</span> "Ao digitar <code>polícia -militar</code> no Google, o buscador retornará resultados que contenham as palavras 'polícia' OU a palavra 'militar'."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> O hífen grudado na palavra funciona como um sinal matemático de subtração (menos). Ele serve para <strong>EXCLUIR</strong>. A busca vai trazer tudo sobre "polícia", mas vai deletar da tela qualquer site que tenha a palavra "militar" no texto.</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">22. Redes Sociais "Blindadas"</span>
+      <p><span class="falso">FALSO:</span> "Para evitar vazamento de dados, as redes sociais corporativas garantem anonimato aos participantes e imunidade contra ataques de engenharia social."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> Nenhuma rede garante imunidade! Pelo contrário, as bancas adoram afirmar (e estão certas) que redes sociais são o prato cheio para criminosos colherem dados públicos (OSINT) para aplicarem golpes de manipulação psicológica (Engenharia Social).</p>
+    </div>
+
+    <div class="trick-box">
+      <span class="trick-title">23. Grupos de Discussão vs Chat</span>
+      <p><span class="falso">FALSO:</span> "Grupos de discussão e fóruns na internet utilizam exclusivamente o modelo de comunicação síncrona, exigindo que todos os membros estejam online ao mesmo tempo."</p>
+      <p style="margin-top: 8px;"><strong>A Explicação:</strong> É o contrário! A base dos grupos de discussão e fóruns é a comunicação <strong>ASSÍNCRONA</strong> (como o e-mail). Alguém posta uma dúvida de manhã e o outro responde à noite. Síncrono (ao vivo) seria o WhatsApp, chamadas de vídeo ou chat.</p>
     </div>
 
      <div class="trick-box">
